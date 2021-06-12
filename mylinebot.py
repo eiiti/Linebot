@@ -56,8 +56,12 @@ def handle_image_message(event):
         sent_image_binary = fd.read()
         response = client.detect_faces(Image={"Bytes": sent_image_binary},
                                        Attributes=["ALL"])
+        print(response)
 
     # 返答を送信する
+    line_bot_api.reply_message(
+        event.reply_token,
+        TextSendMessage(text=response))
 
     # file_path の画像を削除
     os.remove(file_path)
