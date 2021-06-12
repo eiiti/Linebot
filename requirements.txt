@@ -1,2 +1,2 @@
 line-bot-sdk
-bot3
+boto3
