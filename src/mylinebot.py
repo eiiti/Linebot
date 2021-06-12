@@ -92,7 +92,7 @@ def handle_image_message(event):
     # 返答を送信する
     line_bot_api.reply_message(
         event.reply_token,
-        TextSendMessage(text=response))
+        TextSendMessage(text=message))
 
     # file_path の画像を削除
     os.remove(file_path)
