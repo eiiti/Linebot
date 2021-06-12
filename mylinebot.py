@@ -11,8 +11,12 @@ from linebot.models import (
     MessageEvent, TextMessage, TextSendMessage, ImageMessage,
 )
 
+import boto3
+
 handler = WebhookHandler(os.getenv('LINE_CHANNEL_SECRET'))
 line_bot_api = LineBotApi(os.getenv('LINE_CHANNEL_ACCESS_TOKEN'))
+
+client = boto3.client('rekognition')
 
 
 def lambda_handler(event, context):
@@ -48,6 +52,10 @@ def handle_image_message(event):
             fd.write(chunk)
 
     # Rekognition で感情分析する
+    with open(file_path, 'rb') as fd:
+        sent_image_binary = fd.read()
+        response = client.detect_faces(Image={"Bytes": sent_image_binary},
+                                       Attributes=["ALL"])
 
     # 返答を送信する
 
